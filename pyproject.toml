@@ -13,11 +13,11 @@ pandas        = "^2.0"
 xarray        = "^2024.1"
 netCDF4       = "^1.6"
 # Geospatial / raster
-geopandas     = "^0.13"
-shapely       = "^2.0"
+geopandas     = "0.13.2"
+shapely       = "2.0.1"
 rasterio      = "^1.4"
 rioxarray     = "^0.15"
-gdal          = "*"        # OSGeo bindings; may require system package install
+gdal = "3.10.3"
 # Remote-access / filesystem
 earthaccess   = "*"        # or pin to the appropriate PyPI/GitHub version
 fsspec   = "^2024.1"
@@ -28,6 +28,9 @@ scikit-image  = "^0.20"
 
 # Local modules
 # emit-tools    = { path = "../modules", develop = true }
+fiona = "1.9.5"
+pyproj = "3.5"
+holoviews = "^1.20.2"
 
 [tool.poetry.group.dev.dependencies]
 jupyter       = "^1.0"
