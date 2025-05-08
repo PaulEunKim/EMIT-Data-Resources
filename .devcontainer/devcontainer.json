@@ -20,5 +20,5 @@
   "mounts": [
     "source=poetry_venv_cache,target=/workspaces/EMIT-Data-Resources/.venv,type=volume"
   ],
-  "postCreateCommand": "poetry config virtualenvs.in-project true && poetry install --no-root && poetry run python3 -m ipykernel install --user --name=devcontainer --display-name 'Python (DevContainer)'"
+  "postCreateCommand": "./.devcontainer/setup.sh"
 }

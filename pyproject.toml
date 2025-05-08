@@ -6,7 +6,7 @@ authors = ["Paul Kim <pau_kim@lanl.gov>"]
 package-mode    = false    # ← disable installing the project itself
 
 [tool.poetry.dependencies]
-python        = "^3.10"
+python = ">=3.10,<3.12"
 # Core data libraries
 numpy         = "^1.25"
 pandas        = "^2.0"

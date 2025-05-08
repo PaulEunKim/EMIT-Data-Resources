@@ -1,43 +1,64 @@
-FROM docker.io/pytorch/pytorch:2.2.0-cuda12.1-cudnn8-runtime
+FROM ghcr.io/osgeo/gdal:ubuntu-small-latest
 
-# Avoid interactive prompts
+# Avoid interactive prompts during package installs
 ENV DEBIAN_FRONTEND=noninteractive
-ENV GDAL_VERSION=3.10.3
-
-# Install GDAL and system tools
-RUN apt-get update && apt-get install -y \
-    libgdal-dev \
-    libpq-dev \
-    libpq5 \
-    libpq-dev \ 
-    software-properties-common \
-    && add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable \
-    && apt-get update && apt-get install -y \
-    gdal-bin \
-    python3-gdal \
-    python3-dev \
-    build-essential \
-    zsh \
-    git \
-    curl \
-    sudo \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:$PATH"
 
+# Add deadsnakes PPA and install Python 3.11 + dependencies
+RUN apt-get update && apt-get install -y software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update && apt-get install -y \
+    python3.11 \
+    python3.11-venv \
+    python3.11-dev \
+    python3-pip \
+    python3-setuptools \
+    python3-wheel \
+    build-essential \
+    libffi-dev \
+    libssl-dev \
+    zlib1g-dev \
+    libproj-dev \
+    proj-data \
+    proj-bin \
+    libgeos-dev \
+    curl \
+    git \
+    bash \
+    zsh \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set GDAL-related environment variables
-ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
-ENV C_INCLUDE_PATH=/usr/include/gdal
-ENV GDAL_INCLUDE_DIR=/usr/include/gdal
-ENV GDAL_LIBRARY_PATH=/usr/lib/libgdal.so
+# Set Python 3.11 as default
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1 && \
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 && \
+    update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
-# Set default shell to Zsh
-SHELL ["/bin/zsh", "-c"]
+# Create and activate a virtualenv
+ENV VIRTUAL_ENV=/opt/venv
+RUN python -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+# Install Poetry using Python 3.11
+RUN curl -sSL https://install.python-poetry.org | python3.11 -
+ENV PATH="/root/.local/bin:$PATH"
+ENV POETRY_PYTHON=/usr/bin/python3.11
 
 # Set working directory
 WORKDIR /workspace
 
-# Poetry install will run after mount in postCreateCommand
+# Copy only dependency files to leverage Docker cache
+COPY pyproject.toml poetry.lock* ./
+
+# Set Poetry to use in-project virtualenvs
+RUN poetry config virtualenvs.in-project true
+
+# Lock dependencies (optional if poetry.lock already exists)
+RUN poetry lock
+
+# Install dependencies
+RUN poetry install --no-interaction --no-ansi
+
+# Register Jupyter kernel
+RUN poetry run python3 -m ipykernel install --user --name=devcontainer --display-name 'Python (DevContainer)'
+# Optional: switch to zsh
+SHELL ["/bin/zsh", "-c"]
