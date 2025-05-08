@@ -5,14 +5,14 @@
     "dockerfile": "../Dockerfile"
   },
 
-  // ← This completely suppresses VS Code's auto‑injected container-features
   "features": {},
 
   "customizations": {
     "vscode": {
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",
-        "python.defaultInterpreterPath": "/usr/bin/python3"
+        // Use the venv-interpreter that Jupyter will register
+        "python.defaultInterpreterPath": "/workspaces/EMIT-Data-Resources/.venv/bin/python"
       },
       "extensions": [
         "ms-python.python",
@@ -21,8 +21,12 @@
       ]
     }
   },
+
+  "runArgs": ["--memory=4g", "--memory-swap=4g"],
+
   "mounts": [
     "source=poetry_venv_cache,target=/workspaces/EMIT-Data-Resources/.venv,type=volume"
   ],
-  // "postCreateCommand": "poetry config virtualenvs.in-project true && poetry install --no-root && poetry run python3 -m ipykernel install --user --name=devcontainer --display-name 'Python (DevContainer)'"
+
+  "postCreateCommand": "chmod +x ./.devcontainer/setup.sh"
 }
