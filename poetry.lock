@@ -1304,20 +1304,6 @@ test-full = ["adlfs", "aiohttp (!=4.0.0a0,!=4.0.0a1)", "cloudpickle", "dask", "d
 tqdm = ["tqdm"]
 
 [[package]]
-name = "gdal"
-version = "3.10.3"
-description = "GDAL: Geospatial Data Abstraction Library"
-optional = false
-python-versions = ">=3.8.0"
-groups = ["main"]
-files = [
-    {file = "gdal-3.10.3.tar.gz", hash = "sha256:b5550650daeeae8e41091581d9aea7d75a9f15b0ebbeb8c96e37458fa02264cd"},
-]
-
-[package.extras]
-numpy = ["numpy (>1.0.0)"]
-
-[[package]]
 name = "geopandas"
 version = "0.13.2"
 description = "Geographic pandas extensions"
@@ -4869,4 +4855,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "7309432a4a1e4e7cb46970bbe969a9ec698305922cb3d6b697af949a1f07614b"
+content-hash = "4feb0c87ee82f12fb4f02dfaa37e6df6266597b86c1395f43413dd52abf7ed24"

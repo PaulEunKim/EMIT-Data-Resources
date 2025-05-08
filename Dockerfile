@@ -6,15 +6,15 @@ ENV GDAL_VERSION=3.10.3
 
 # Install GDAL and system tools
 RUN apt-get update && apt-get install -y \
+    libgdal-dev \
     libpq-dev \
-    libpq5=12.2.4 \ 
+    libpq5 \
     libpq-dev \ 
     software-properties-common \
     && add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable \
     && apt-get update && apt-get install -y \
     gdal-bin \
     python3-gdal \
-    aptitutde \ 
     python3-dev \
     build-essential \
     zsh \
@@ -22,8 +22,6 @@ RUN apt-get update && apt-get install -y \
     curl \
     sudo \
     && rm -rf /var/lib/apt/lists/*
-
-RUN aptitude install libgdal-dev
 
 # Install Poetry
 RUN curl -sSL https://install.python-poetry.org | python3 -

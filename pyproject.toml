@@ -17,7 +17,7 @@ geopandas     = "0.13.2"
 shapely       = "2.0.1"
 rasterio      = "^1.4"
 rioxarray     = "^0.15"
-gdal = "3.10.3"
+# gdal = "3.10.3"
 # Remote-access / filesystem
 earthaccess   = "*"        # or pin to the appropriate PyPI/GitHub version
 fsspec   = "^2024.1"
