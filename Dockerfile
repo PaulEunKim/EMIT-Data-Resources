@@ -8,12 +8,17 @@ ENV PATH="/root/.local/bin:$PATH"
 RUN apt-get update && apt-get install -y software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa && \
     apt-get update && apt-get install -y \
+    
     python3.11 \
     python3.11-venv \
     python3.11-dev \
     python3-pip \
     python3-setuptools \
     python3-wheel \
+    python3-gdal \
+    
+    libhdf5-dev \
+    libnetcdf-dev \
     build-essential \
     libffi-dev \
     libssl-dev \
@@ -58,7 +63,14 @@ RUN poetry lock
 # Install dependencies
 RUN poetry install --no-interaction --no-ansi
 
+# Install Python GDAL bindings (closest match for GDAL 3.12.0dev)
+RUN $VIRTUAL_ENV/bin/pip install --no-cache-dir gdal==3.10.3
+RUN $VIRTUAL_ENV/bin/pip install --no-cache-dir geoviews[recommended]
+
 # Register Jupyter kernel
 RUN poetry run python3 -m ipykernel install --user --name=devcontainer --display-name 'Python (DevContainer)'
 # Optional: switch to zsh
+
+
+
 SHELL ["/bin/zsh", "-c"]
