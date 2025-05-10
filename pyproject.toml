@@ -45,6 +45,9 @@ pytest        = "^7.0"
 black         = "^23.1"
 isort         = "^5.12"
 
+# [tool.poetry.group.experimental.dependencies]
+# opencv-python = "*"
+
 [build-system]
 requires      = ["poetry-core>=1.2.0"]
 build-backend = "poetry.core.masonry.api"

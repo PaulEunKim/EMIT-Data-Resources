@@ -13,12 +13,14 @@
       "extensions": [
         "ms-python.python",
         "ms-toolsai.jupyter",
-        "tamasfe.even-better-toml"
+        "tamasfe.even-better-toml",
+        "vscodevim.vim"
       ] 
     }
   },
   "mounts": [
-    "source=poetry_venv_cache,target=/workspaces/EMIT-Data-Resources/.venv,type=volume"
-  ],
+    "source=poetry_venv_cache,target=/workspaces/EMIT-Data-Resources/.venv,type=volume",
+    "source=${localWorkspaceFolder}/../../hyperspectral-ch4-data,target=/workspaces/hyperspectral-ch4-data,type=bind"
+    ],
   "postCreateCommand": "./.devcontainer/setup.sh"
 }

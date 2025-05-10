@@ -55,7 +55,7 @@ WORKDIR /workspace
 COPY pyproject.toml poetry.lock* ./
 
 # Set Poetry to use in-project virtualenvs
-RUN poetry config virtualenvs.in-project true
+RUN poetry config virtualenvs.in-project false
 
 # Lock dependencies (optional if poetry.lock already exists)
 RUN poetry lock
